@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đèn Kéo Quân 3D - Bài Tập 39</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background: #0f172a;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .header {
+            position: absolute;
+            top: 20px;
+            text-align: center;
+            z-index: 10;
+        }
+
+        .header h2 {
+            font-size: 24px;
+            color: #f1c40f;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            font-size: 14px;
+            color: #cbd5e1;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 6px 15px;
+            background: #334155;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+
+        /* 3D Scene Wrapper */
+        .scene {
+            width: 200px;
+            height: 260px;
+            perspective: 1000px;
+            margin-top: 40px;
+        }
+
+        /* Carousel Container */
+        .carousel {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transform: rotateX(-5deg);
+        }
+
+        /* 6 Faces of the Lantern */
+        .carousel-face {
+            position: absolute;
+            width: 190px;
+            height: 250px;
+            left: 5px;
+            top: 5px;
+            border: 3px solid #f1c40f;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(241, 196, 15, 0.4);
+            background: #1e293b;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+
+        .carousel-face:hover {
+            border-color: #ff4757;
+        }
+
+        .carousel-face img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Calculated positions for 6 faces: angle = 60deg, radius = 180px */
+        .carousel-face:nth-child(1) { transform: rotateY(0deg) translateZ(180px); }
+        .carousel-face:nth-child(2) { transform: rotateY(60deg) translateZ(180px); }
+        .carousel-face:nth-child(3) { transform: rotateY(120deg) translateZ(180px); }
+        .carousel-face:nth-child(4) { transform: rotateY(180deg) translateZ(180px); }
+        .carousel-face:nth-child(5) { transform: rotateY(240deg) translateZ(180px); }
+        .carousel-face:nth-child(6) { transform: rotateY(300deg) translateZ(180px); }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h2>ĐÈN KÉO QUÂN 3D</h2>
+        <p>Mã SV: <strong style="color: #ff4757;">[241A010537]</strong></p>
+        <p><i>(Rê chuột vào hình để dừng đèn - Đưa chuột ra để tiếp tục quay)</i></p>
+        <a href="index.html" class="back-btn">← Về trang chủ</a>
+    </div>
+
+    <div class="scene">
+        <div class="carousel" id="carousel">
+            <!-- 6 mặt ảnh (Thay link ảnh của bạn vào đây) -->
+            <div class="carousel-face"><img src="https://picsum.photos/id/1015/300/400" alt="Ảnh 1"></div>
+            <div class="carousel-face"><img src="https://picsum.photos/id/1025/300/400" alt="Ảnh 2"></div>
+            <div class="carousel-face"><img src="https://picsum.photos/id/1035/300/400" alt="Ảnh 3"></div>
+            <div class="carousel-face"><img src="https://picsum.photos/id/1043/300/400" alt="Ảnh 4"></div>
+            <div class="carousel-face"><img src="https://picsum.photos/id/1050/300/400" alt="Ảnh 5"></div>
+            <div class="carousel-face"><img src="https://picsum.photos/id/1062/300/400" alt="Ảnh 6"></div>
+        </div>
+    </div>
+
+    <script>
+        const carousel = document.getElementById('carousel');
+        let currentAngle = 0;
+        let isPaused = false;
+        let animationFrameId;
+
+        // Hàm xoay đèn kéo quân liên tục
+        function rotateLantern() {
+            if (!isPaused) {
+                currentAngle += 0.5; // Tốc độ xoay
+                carousel.style.transform = `rotateX(-5deg) rotateY(${currentAngle}deg)`;
+            }
+            animationFrameId = requestAnimationFrame(rotateLantern);
+        }
+
+        // Đăng ký sự kiện rê chuột (Hover) để dừng và chạy tiếp
+        carousel.addEventListener('mouseenter', () => {
+            isPaused = true;
+        });
+
+        carousel.addEventListener('mouseleave', () => {
+            isPaused = false;
+        });
+
+        // Bắt đầu quay
+        rotateLantern();
+    </script>
+</body>
+</html>
